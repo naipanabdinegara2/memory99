@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenangan Kita</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/3.9.3/full.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 fixed top-0 z-50 shadow-sm">
+        <div class="container mx-auto">
+            <div class="flex-1">
+                <a class="btn btn-ghost text-xl">Memory Of Legacy 9.9</a>
+            </div>
+            <div class="flex-none">
+                <button id="musicToggle" class="btn btn-circle btn-ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero min-h-screen" style="background-image: url('memory-vault/photo-bg.jpg');">
+        <div class="hero-overlay bg-opacity-60"></div>
+        <div class="hero-content text-center text-neutral-content">
+            <div class="max-w-md">
+                <h1 class="mb-5 text-5xl font-bold">Momen Berharga</h1>
+                <p class="mb-5">Setiap kenangan memiliki ceritanya sendiri.</p>
+                <button class="btn btn-primary" onclick="App.scrollToGallery()">Jelajahi</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Gallery Section -->
+    <div id="gallery" class="container mx-auto py-16 px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <h2 class="text-3xl font-bold">Galeri Kenangan</h2>
+            <div class="flex flex-wrap gap-2">
+                <div class="join">
+                    <button class="btn join-item" onclick="Gallery.filterMemories('all')">Semua</button>
+                    <button class="btn join-item" onclick="Gallery.filterMemories('liburan')">Liburan</button>
+                    <button class="btn join-item" onclick="Gallery.filterMemories('keluarga')">Keluarga</button>
+                    <button class="btn join-item" onclick="Gallery.filterMemories('absurd')">Absurd</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="memoriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+
+    <!-- Modal -->
+    <dialog id="memoryModal" class="modal">
+    <div class="modal-box w-11/12 max-w-5xl">
+        <h3 id="modalTitle" class="font-bold text-lg mb-4"></h3>
+        <div class="relative">
+            <div id="modalContent" class="w-full my-4"></div>
+            <!-- Tombol navigasi -->
+            <button onclick="Modal.prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 btn btn-circle btn-sm bg-black/50 hover:bg-black/75 border-none text-white">❮</button>
+            <button onclick="Modal.nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 btn btn-circle btn-sm bg-black/50 hover:bg-black/75 border-none text-white">❯</button>
+            <!-- Indikator -->
+            <div class="flex justify-center gap-1 mt-2" id="modalIndicators"></div>
+        </div>
+        <p id="modalDescription" class="py-4"></p>
+        <div class="modal-action">
+            <button class="btn" onclick="Modal.close()">Tutup</button>
+        </div>
+    </div>
+</dialog>
+
+    <!-- About Section -->
+    <div class="bg-base-200 py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-8">Tentang Kami</h2>
+                <p class="max-w-2xl mx-auto">
+                    Website ini dibuat untuk mengabadikan momen-momen berharga saat kita masih berada di smpn 21 palembang. 
+                    Setiap foto dan video menyimpan cerita yang unik, menciptakan tapestri kenangan 
+                    yang indah untuk dikenang bersama.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="container mx-auto py-16 px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">Bagikan Kenangan</h2>
+        <form id="contactForm" action="https://formspree.io/f/your-endpoint" method="POST" class="max-w-lg mx-auto">
+    <div class="form-control w-full mb-4">
+        <label class="label"><span class="label-text">Nama</span></label>
+        <input type="text" name="name" placeholder="Masukkan nama" class="input input-bordered w-full" required />
+    </div>
+    <div class="form-control w-full mb-4">
+        <label class="label"><span class="label-text">Email</span></label>
+        <input type="email" name="email" placeholder="Masukkan email" class="input input-bordered w-full" required />
+    </div>
+    <div class="form-control w-full mb-4">
+        <label class="label"><span class="label-text">Cerita</span></label>
+        <textarea name="message" class="textarea textarea-bordered h-24" placeholder="Ceritakan kenangan Anda..." required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary w-full">Kirim</button>
+</form>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="bgMusic" loop>
+        <source src="MUSIC/music.mp3" type="audio/mp3">
+    </audio>
+
+    <script src="datastream.js"></script>
+</body>
+</html> 
