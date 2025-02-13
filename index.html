@@ -15,13 +15,21 @@
             <div class="flex-1">
                 <a class="btn btn-ghost text-xl">Memory Of Legacy 9.9</a>
             </div>
-            <div class="flex-none">
-                <button id="musicToggle" class="btn btn-circle btn-ghost">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-                    </svg>
-                </button>
-            </div>
+            <div class="flex-none flex gap-2">
+                
+    <button onclick="showCountdown()" class="btn btn-accent">
+            <i class="fa-solid fa-hourglass-half"></i> Countdown
+    <button id="nostalgiaToggle" class="btn btn-circle btn-ghost">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+    </button>
+    <button id="musicToggle" class="btn btn-circle btn-ghost">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+        </svg>
+    </button>
+</div>
         </div>
     </div>
 
@@ -73,6 +81,29 @@
     </div>
 </dialog>
 
+<dialog id="nostalgiaModal" class="modal">
+    <div class="modal-box w-11/12 max-w-3xl">
+        <h3 class="font-bold text-lg mb-4">Mode Nostalgia</h3>
+        <div class="relative">
+            <img id="nostalgiaImage" class="w-full h-96 object-contain" src="" alt="Kenangan">
+            <p id="modalDescription" class="py-4">Foto-foto kenangan dari kelas 7 sampai kelas 9, yang akan ditampilkan setiap 2 detik sekali.</p>
+        </div>
+        <div class="modal-action">
+            <button class="btn" onclick="Nostalgia.close()">Tutup</button>
+        </div>
+    </div>
+</dialog>
+
+   <div id="countdown-modal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white text-gray-900 p-6 rounded-lg shadow-lg w-96">
+            <h2 class="text-center text-xl font-bold">Tanggal Menuju Kelulusan Kita</h2>
+            <p id="countdown-timer" class="text-center text-3xl font-mono mt-4"></p>
+            <p class="text-center mt-2">Mari kita hitung mundur ke hari bersejarah ini bersama!</p>
+            <button onclick="hideCountdown()" class="btn btn-error mt-4 w-full">Tutup</button>
+        </div>
+    </div>
+
+
     <!-- About Section -->
     <div class="bg-base-200 py-16">
         <div class="container mx-auto px-4">
@@ -90,7 +121,7 @@
     <!-- Contact Form -->
     <div class="container mx-auto py-16 px-4">
         <h2 class="text-3xl font-bold text-center mb-8">Bagikan Kenangan</h2>
-        <form id="contactForm" action="https://formspree.io/f/your-endpoint" method="POST" class="max-w-lg mx-auto">
+        <form id="contactForm" action="https://formspree.io/f/xldgwazv" method="POST" class="max-w-lg mx-auto">
     <div class="form-control w-full mb-4">
         <label class="label"><span class="label-text">Nama</span></label>
         <input type="text" name="name" placeholder="Masukkan nama" class="input input-bordered w-full" required />
@@ -111,7 +142,8 @@
     <audio id="bgMusic" loop>
         <source src="MUSIC/music.mp3" type="audio/mp3">
     </audio>
-<!-- LOL -->
+
     <script src="datastream.js"></script>
 </body>
 </html> 
+                
