@@ -12,6 +12,98 @@ async function loadMemories() {
     }
 }
 
+// Button of memories Functions
+const graduationDate = new Date(2025, 5, 20, 0, 0, 0); // 20 Juni 2025
+
+const Nostalgia = {
+    modal: document.getElementById("nostalgiaModal"),
+    imageElement: document.getElementById("nostalgiaImage"),
+    music: document.getElementById("bgMusic"),
+    images: [],
+    currentIndex: 0,
+    interval: null,
+
+// Function of countdown and nostalgiaImage
+async loadImages() {
+        try {
+            const response = await fetch("reminisync.json");
+            const data = await response.json();
+            this.images = data.memories
+                .flatMap(memory => memory.mediaFiles)
+                .filter(file => /\.(jpg|jpeg|png)$/i.test(file)); // Hanya foto
+            
+            if (this.images.length === 0) {
+                console.warn("Tidak ada foto ditemukan untuk mode nostalgia.");
+            }
+        } catch (error) {
+            console.error("Error loading nostalgia images:", error);
+        }
+    },
+
+    showNextImage() {
+        if (this.images.length === 0) return;
+        this.imageElement.src = this.images[this.currentIndex];
+        this.currentIndex = (this.currentIndex + 1) % this.images.length;
+    },
+
+    startSlideshow() {
+        this.showNextImage();
+        this.interval = setInterval(() => this.showNextImage(), 2000);
+    },
+
+    open() {
+        this.loadImages().then(() => {
+            if (this.images.length > 0) {
+                this.startSlideshow();
+                this.music.play();
+                this.modal.showModal();
+            } else {
+                alert("Tidak ada gambar nostalgia.");
+            }
+        });
+    },
+
+    close() {
+        clearInterval(this.interval);
+        this.music.pause();
+        this.modal.close();
+    }
+};
+
+document.getElementById("nostalgiaToggle").addEventListener("click", () => Nostalgia.open());
+
+        // Menampilkan modal hitung mundur
+        function showCountdown() {
+            document.getElementById("countdown-modal").classList.remove("hidden");
+            updateCountdown(); // Jalankan sekali sebelum interval
+        }
+
+        // Menyembunyikan modal hitung mundur
+        function hideCountdown() {
+            document.getElementById("countdown-modal").classList.add("hidden");
+        }
+        // Menyembunyikan modal hitung mundur
+        function hideCountdown() {
+            document.getElementById("countdown-modal").classList.add("hidden");
+        }
+
+        // Update countdown timer setiap detik
+        function updateCountdown() {
+            const now = new Date();
+            const timeLeft = graduationDate - now;
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown-timer").innerHTML = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            setTimeout(updateCountdown, 1000);
+        }
+
+
 // Utility Functions
 const Utils = {
     isVideo(filename) {
